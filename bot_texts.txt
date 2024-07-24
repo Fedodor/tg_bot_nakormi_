@@ -1,0 +1,12 @@
+List of commands:
+
+command_name - Текст команды
+command_name_2 - Текст команды 2
+
+Description:
+
+Здесь полное описание бота
+
+About:
+
+Здесь краткое описание бота.

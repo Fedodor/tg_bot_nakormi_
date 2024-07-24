@@ -1,0 +1,53 @@
+version: "3.8"
+
+services:
+
+  db:
+    container_name: db
+    image: postgres
+    restart: always
+    ports:
+      - 5432:5432
+    environment:
+      - POSTGRES_USER=${DB_USERNAME}
+      - POSTGRES_PASSWORD=${DB_PASSWORD}
+      - POSTGRES_DB=${DB_NAME}
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+
+  redis:
+    container_name: redis
+    restart: always
+    image: redis:7.2
+    ports:
+      - 6379:6379
+    volumes:
+      - redis_data:/data
+
+
+  web:
+    container_name: ${DOCKERHUB_REPOSITORY_NAME}_backend
+    image: ${DOCKERHUB_USERNAME}/${DOCKERHUB_REPOSITORY_NAME}
+    environment:
+      - BOT_TOKEN=${BOT_TOKEN}
+      - REDIS_HOST=${REDIS_HOST}
+      - REDIS_PORT=${REDIS_PORT}
+      - REDIS_DB=${REDIS_DB}
+      - DB_HOSTNAME=db
+      - DB_USERNAME=${DB_USERNAME}
+      - DB_PASSWORD=${DB_PASSWORD}
+      - DB_NAME=${DB_NAME}
+      - DB_PORT=${DB_PORT}
+      - DB_ECHO=${DB_ECHO}
+    command: bash -c "alembic upgrade head && python src/main.py"
+    ports:
+      - 8000:8000
+    depends_on:
+      - redis
+      - db
+    restart: always
+
+volumes:
+  redis_data:
+  pgdata:
