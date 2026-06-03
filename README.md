@@ -14,7 +14,7 @@ The project is useful for showing async Python, aiogram, environment-based confi
 
 ## Current status
 
-The repository is still in an early stage. The setup is prepared, but the README and product description should be improved as the bot logic grows.
+The repository is still in an early stage.
 
 ## Tech stack
 
